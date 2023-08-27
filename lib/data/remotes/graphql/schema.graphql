@@ -1,0 +1,2168 @@
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+    """The URL that specifies the behavior of this scalar."""
+    url: String!
+) on SCALAR
+
+type Account {
+    id: Int!
+    name: String
+    kana: String
+    sexId: Int
+    phoneNumber: String
+    email: String!
+    accountTypeId: Int
+    accountStatusId: Int
+}
+
+input AccountConfirmRequest {
+    hash: String!
+}
+
+input AccountLoginRequest {
+    email: String!
+    password: String!
+}
+
+input Action {
+    action: String!
+    category: String!
+    label: String
+    value: String
+    meta: [String!]
+}
+
+type ActionReply {
+    status: Int
+    message: String
+}
+
+type Address {
+    id: Int!
+    customerId: Int!
+    name: String!
+    prefId: Int!
+    postalCode: String!
+    phoneNumber: String!
+    addr01: String!
+    addr02: String
+}
+
+input AddSkuRequest {
+    id: String!
+    price: Float!
+    sku: String
+    barcode: String
+    qty: Float!
+    cost: Float
+    pattern: [PatternInput!]!
+}
+
+input AdminLogin {
+    email: String!
+    password: String!
+    code: String!
+}
+
+type Banner {
+    id: Int!
+    bannerTypeId: Int!
+    title: String!
+    url: String
+    startingDate: DateTime!
+    closingDate: DateTime
+    sortNo: Int!
+    isExternal: Boolean!
+    createDate: DateTime!
+    updateDate: DateTime!
+    image: BannerImage!
+}
+
+type BannerImage {
+    id: Int!
+    bannerId: Int!
+    path: String!
+    key: String!
+    fileType: String!
+    fileName: String!
+}
+
+type BusinessDay {
+    id: Int
+    sunday: Boolean
+    monday: Boolean
+    tuesday: Boolean
+    wednesday: Boolean
+    thursday: Boolean
+    friday: Boolean
+    saturday: Boolean
+    holiday: Boolean
+    openingTime: String
+    closingTime: String
+}
+
+input BusinessDayParam {
+    openingTime: String
+    closingTime: String
+    sunday: Boolean
+    monday: Boolean
+    tuesday: Boolean
+    wednesday: Boolean
+    thursday: Boolean
+    friday: Boolean
+    saturday: Boolean
+    holiday: Boolean
+}
+
+input BusinessDayRequest {
+    id: Int!
+    openingTime: String
+    closingTime: String
+    sunday: Boolean
+    monday: Boolean
+    tuesday: Boolean
+    wednesday: Boolean
+    thursday: Boolean
+    friday: Boolean
+    saturday: Boolean
+    holiday: Boolean
+}
+
+type CafeCart {
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    quantity: Int!
+    cartItems: [CafeCartItem!]!
+}
+
+type CafeCartItem {
+    id: String!
+    quantity: Int!
+    skuId: String!
+    price: Int!
+    priceWithTax: Int!
+    stock: Int
+    pattern: [CafePattern!]!
+    soldOut: Boolean!
+    productId: String!
+    name: String!
+    thumbnail: Image!
+    isReducedTax: Boolean!
+    nonManagedStock: Boolean!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+}
+
+type CafeOrder {
+    id: String!
+    orderId: String!
+    customerId: Int
+    tenpoId: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    memo: String
+    paymentStatusId: Int!
+    orderStatusId: Int!
+    recordStatusId: Int!
+    paymentVendorId: Int!
+    orderItems: [CafeOrderItem!]!
+    createDate: DateTime!
+    updateDate: DateTime!
+    paymentId: String
+    codeUrl: String
+}
+
+type CafeOrderAggregate {
+    totalPayment: Int!
+    totalQuantity: Int!
+}
+
+type CafeOrderItem {
+    id: String!
+    orderId: String!
+    productId: String!
+    skuId: String!
+    productName: String!
+    thumbnail: String!
+    pattern: String!
+    taxRate: Float!
+    price: Int!
+    quantity: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    recordStatusId: Int!
+}
+
+input CafeOrdersParam {
+    customerId: Int
+    paymentStatusId: Int
+    orderStatusId: Int
+    recordStatusId: Int
+    tenpoId: Int
+    startDate: DateTime
+    endDate: DateTime
+}
+
+type CafeOrdersReply {
+    dataSource: [CafeOrder!]!
+    pages: PageReply!
+    aggregate: CafeOrderAggregate!
+}
+
+input CafeOrdersRequest {
+    param: CafeOrdersParam
+    pages: PageRequest
+}
+
+type CafeOrdersSummaryByProduct {
+    productId: String!
+    productName: String!
+    skuId: String!
+    pattern: String!
+    totalQuantity: Int!
+    totalPayment: Int!
+}
+
+input CafeOrdersSummaryParam {
+    startDate: DateTime!
+    endDate: DateTime!
+    tenpoId: Int
+}
+
+input CafeOrdersSummaryRequest {
+    param: CafeOrdersSummaryParam!
+    pages: PageRequest
+}
+
+type CafeOrdersSummayrReply {
+    dataSource: [CafeOrdersSummaryByProduct!]!
+    pages: PageReply!
+}
+
+type CafePattern {
+    label: String!
+    option: String!
+}
+
+input CafePatternInput {
+    label: String!
+    option: String!
+}
+
+type CafePrice {
+    amount: Float!
+    type: Int!
+    isReducedTax: Boolean!
+    priceWithTax: Int!
+}
+
+input CafePriceInput {
+    amount: Float!
+    type: Int!
+    isReducedTax: Boolean!
+}
+
+type CafeProduct {
+    id: String!
+    name: String!
+    overview: String!
+    detail: String
+    categoryId: Int!
+    tenpoId: Int!
+    tenpoName: String!
+    tags: [String!]!
+    isReducedTax: Boolean!
+    memo: String
+    variations: [CafeVariation!]!
+    images: [Image!]!
+    skus: [CafeSku!]!
+    productType: Int!
+    status: Int!
+    nonManagedStock: Boolean!
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+type CafeSku {
+    id: String!
+    prices: [CafePrice!]!
+    qty: Int
+    cost: Float
+    pattern: [CafePattern!]!
+    soldOut: Boolean!
+}
+
+type CafeStandardProduct {
+    id: String!
+    name: String!
+    overview: String!
+    detail: String
+    categoryId: Int!
+    tags: [String!]!
+    isReducedTax: Boolean!
+    memo: String
+    variations: [CafeVariation!]!
+    images: [Image!]!
+    skus: [CafeStandardSku!]!
+    productType: Int!
+    status: Int!
+    nonManagedStock: Boolean!
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+input CafeStandardProductForm {
+    id: String!
+    standardProductIds: [String!]!
+}
+
+type CafeStandardProductGroup {
+    id: String!
+    name: String
+    standardProducts: [CafeStandardProduct!]!
+    tenpoSizeId: Int!
+    startDate: DateTime!
+    endDate: DateTime!
+    createDate: DateTime!
+    updateDate: DateTime!
+}
+
+type CafeStandardSku {
+    id: String!
+    prices: [CafePrice!]!
+    cost: Float
+    pattern: [CafePattern!]!
+}
+
+type CafeVariation {
+    label: String!
+    options: [String!]!
+}
+
+input CafeVariationInput {
+    label: String!
+    options: [String!]!
+}
+
+type Cart {
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    deliveryFee: Int!
+    quantity: Int!
+    ownnerName: String!
+    ownnerId: Int!
+    cartItems: [CartItem!]!
+}
+
+input CartFilter {
+    ownnerId: Int!
+    typeId: Int!
+}
+
+type CartItem {
+    id: Int!
+    typeId: Int!
+    quantity: Int!
+    skuId: String!
+    price: Int!
+    priceWithTax: Int!
+    stock: Int!
+    productId: String!
+    productName: String!
+    image: Image
+    pattern: [Pattern!]!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+}
+
+input ChangeSoldOutRrequest {
+    id: String!
+    skuId: String!
+    soldOut: Boolean!
+}
+
+input CreateAccountRequest {
+    name: String
+    kana: String
+    sexId: Int
+    phoneNumber: String
+    email: String!
+    password: String
+    birthday: DateTime
+}
+
+input CreateAddressRequest {
+    customerId: Int!
+    name: String!
+    prefId: Int!
+    postalCode: String!
+    phoneNumber: String!
+    addr01: String!
+    addr02: String
+}
+
+input CreateAdminOneTimePasswordRequest {
+    code: String!
+    email: String!
+}
+
+input CreateBannerImageRequest {
+    path: String!
+    key: String!
+    fileType: String!
+    fileName: String!
+}
+
+input CreateBannerRequest {
+    bannerTypeId: Int!
+    title: String!
+    url: String
+    startingDate: DateTime!
+    closingDate: DateTime
+    sortNo: Int!
+    isExternal: Boolean!
+    image: CreateBannerImageRequest!
+}
+
+input CreateCafeCartItemRequest {
+    productId: String!
+    skuId: String!
+    quantity: Int!
+}
+
+input CreateCafeOrderRequest {
+    orderType: Int!
+    paymentTypeId: Int!
+    priceType: Int!
+    deviceId: String
+}
+
+input CreateCafeProductRequest {
+    name: String!
+    overview: String!
+    detail: String
+    categoryId: Int!
+    tags: [String!]!
+    isReducedTax: Boolean!
+    memo: String
+    variations: [CafeVariationInput!]!
+    images: [ImageInput!]!
+    skus: [CreateCafeSkuRequest!]!
+    status: Int!
+    nonManagedStock: Boolean!
+    tenpoId: Int
+}
+
+input CreateCafeSkuRequest {
+    prices: [CafePriceInput]!
+    qty: Int
+    cost: Float
+    soldOut: Boolean
+    pattern: [CafePatternInput!]!
+}
+
+input CreateCafeStandardProductGroupRequest {
+    name: String
+    standardProductIds: [String!]!
+    tenpoSizeId: Int!
+    startDate: DateTime!
+    endDate: DateTime!
+}
+
+input CreateCafeStandardProductRequest {
+    name: String!
+    overview: String!
+    detail: String
+    categoryId: Int!
+    tags: [String!]!
+    isReducedTax: Boolean!
+    memo: String
+    variations: [CafeVariationInput!]!
+    images: [ImageInput!]!
+    skus: [CreateCafeStandardSkuRequest!]!
+    status: Int!
+    nonManagedStock: Boolean!
+}
+
+input CreateCafeStandardSkuRequest {
+    prices: [CafePriceInput]!
+    cost: Float
+    pattern: [CafePatternInput!]!
+}
+
+input CreateCartItemRequest {
+    typeId: Int!
+    productId: String!
+    skuId: String!
+    ownnerId: Int!
+    quantity: Int!
+}
+
+input CreateDisplayImage {
+    tenpoId: Int
+    path: String!
+    key: String!
+    fileType: String!
+}
+
+input CreateDisplayProductImage {
+    path: String!
+    fileName: String!
+    key: String!
+    fileType: String!
+}
+
+input CreateDisplayProductRequest {
+    tenantId: Int!
+    attributeId: Int!
+    feeId: Int!
+    productId: String!
+    quantity: Int!
+    displayStartDate: Int!
+    displayEndDate: Int!
+    note: String
+    statusNote: String
+    isDelivery: Boolean!
+    images: [CreateDisplayProductImage!]
+    saleType: Int!
+}
+
+input CreateDisplaySpaceAttributeRequest {
+    tenpoId: Int
+    displaySpaceTypeId: Int!
+    name: String
+    width: Int!
+    height: Int!
+    depth: Int!
+    fees: [CreateDisplaySpaceFeeRequest!]!
+}
+
+input CreateDisplaySpaceFeeRequest {
+    tenpoId: Int
+    fee: Int!
+    span: Int!
+}
+
+input CreateDisplaySpaceOnProductRequest {
+    displaySpaceId: Int!
+    displaySpaceProductId: Int!
+}
+
+input CreateDisplaySpaceRequest {
+    statusId: Int!
+    attributeId: Int!
+    blockNumber: String!
+    description: String
+    note: String
+    tenpoId: Int
+}
+
+input CreateFranchiseMember {
+    authorityId: Int!
+    franchiseId: Int
+    name: String!
+    email: String!
+    phoneNumber: String
+    password: String!
+}
+
+input CreateFranchiseRequest {
+    prefId: Int!
+    companyName: String!
+    companyKana: String!
+    postalCode: String!
+    addr01: String!
+    addr02: String!
+    phoneNumber: String!
+    email01: String!
+    email02: String
+    email03: String
+    email04: String
+    url: String
+    member: FranchiseMemberParam!
+}
+
+input CreateManualRequest {
+    path: String!
+    key: String!
+    fileType: String!
+    fileName: String!
+    manualTypeId: Int!
+}
+
+input CreateMasterMember {
+    authorityId: Int!
+    name: String!
+    email: String!
+    phoneNumber: String
+    password: String
+}
+
+input CreateOneTimePasswordRequest {
+    email: String!
+}
+
+input CreateOrderFilter {
+    ownnerId: Int!
+    typeId: Int!
+}
+
+type CreateOrderReply {
+    orderId: String!
+    customerId: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    orderItems: [OrderItem!]!
+    cartItems: [OrderedCartItem!]!
+}
+
+input CreateOrderRequest {
+    shippingAddressId: Int!
+    filter: CreateOrderFilter
+}
+
+input CreateProductRequest {
+    name: String!
+    overview: String!
+    detail: String
+    categoryId: Int!
+    tags: [String!]!
+    joinMemberId: Int
+    memo: String
+    variations: [VariationInput!]!
+    images: [ImageInput!]!
+    skus: [CreateSkuRequest!]!
+    isReducedTax: Boolean!
+    status: Int!
+    saleType: Int!
+    externalUrl: String
+    startDate: DateTime
+    endDate: DateTime
+}
+
+input CreateShippedItem {
+    orderItemId: Int!
+    quantity: Int!
+}
+
+input CreateShippingInformationRequest {
+    orderId: Int!
+    deliveryVendorId: Int!
+    arrivalDate: DateTime
+    shippingDate: DateTime
+    trackingNumber: String!
+    shippedItems: [CreateShippedItem!]!
+}
+
+input CreateShop {
+    prefId: Int!
+    companyName: String!
+    companyKana: String
+    postalCode: String!
+    addr01: String!
+    addr02: String
+    phoneNumber: String
+    email01: String!
+    email02: String
+    email03: String
+    email04: String
+    shopName: String!
+    shopKana: String
+    shopNameEng: String
+    url: String
+    businessDay: BusinessDayParam
+    member: ShopMemberParam!
+}
+
+input CreateShopMember {
+    authorityId: Int!
+    shopId: Int
+    name: String!
+    email: String!
+    phoneNumber: String
+    password: String!
+}
+
+input CreateShopSubscriptionOrderRequest {
+    customerId: Int!
+    planId: Int!
+    paymentTypeId: Int!
+    deviceId: String
+}
+
+input CreateSkuRequest {
+    price: Float!
+    sku: String
+    barcode: String
+    qty: Float!
+    cost: Float
+    pattern: [PatternInput!]!
+}
+
+input CreateTenant {
+    prefId: Int!
+    companyName: String!
+    companyKana: String
+    postalCode: String!
+    addr01: String!
+    addr02: String
+    phoneNumber: String!
+    email01: String!
+    email02: String
+    email03: String
+    email04: String
+    tenantName: String!
+    tenantKana: String
+    tenantNameEng: String
+    openingTime: String
+    closingTime: String
+    url: String
+    businessDay: BusinessDayParam
+    member: TenantMemberParam!
+}
+
+input CreateTenantMember {
+    authorityId: Int!
+    tenantId: Int
+    name: String!
+    email: String!
+    phoneNumber: String
+    password: String
+}
+
+input CreateTenpoOnlyProductRequest {
+    name: String!
+    joinMemberId: Int
+    memo: String
+    externalUrl: String!
+}
+
+type CreateUrlReply {
+    id: String
+    fileName: String
+    url: String!
+    key: String!
+    fileType: String!
+}
+
+input CreateUrlRequest {
+    id: String
+    fileName: String
+    fileType: String!
+}
+
+scalar DateTime
+
+input DeleteCafeOrderRequest {
+    id: String!
+    paymentId: String!
+    paymentVendorId: Int!
+}
+
+input DeleteDisplayImage {
+    id: Int!
+    key: String!
+}
+
+input DeleteShopSubscriptionOrderRequest {
+    id: String!
+    paymentId: String!
+    paymentVendorId: Int!
+}
+
+input DeleteSkuRequest {
+    id: String!
+    skuId: String!
+}
+
+type DeliveryAddress {
+    id: Int!
+    tenantId: Int!
+    name: String!
+    prefId: Int!
+    postalCode: String!
+    addr01: String!
+    addr02: String
+    phoneNumber: String!
+}
+
+type DisplayProduct {
+    productId: String!
+    name: String!
+    overview: String
+    detail: String
+    categoryId: Int
+    tags: [String!]
+    isReducedTax: Boolean
+    memo: String
+    variations: [Variation!]
+    images: [Image!]
+    skus: [Sku!]
+    saleType: Int!
+    externalUrl: String
+    createDate: DateTime
+    updateDate: DateTime
+    id: Int!
+    tenantId: Int!
+    attributeId: Int!
+    feeId: Int!
+    shopId: Int!
+    quantity: Int!
+    displayStartDate: Int!
+    displayEndDate: Int!
+    shippedStatusId: Int!
+    applyStatusId: Int!
+    note: String
+    statusNote: String
+    isDelivery: Boolean!
+    spaceId: Int
+    displayImages: [DisplaySpaceProductImage!]
+    attribute: DisplaySpaceAttribute
+    space: DisplaySpaceForProduct
+    tenantName: String!
+    fee: DisplaySpaceFee!
+    shop: Shop!
+}
+
+input DisplayProductParam {
+    tenpotId: Int
+    displayStartDate: Int
+    displayEndDate: Int
+}
+
+type DisplayProducts {
+    dataSource: [DisplayProduct!]!
+    pages: PageReply!
+}
+
+input DisplayProductsParam {
+    tenantId: Int
+    attributeId: Int
+    shopId: Int
+    productId: String
+    shippedStatusId: Int
+    applyStatusId: Int
+    displayStartDate: Int
+    displayEndDate: Int
+    sort: Sort
+}
+
+input DisplayProductsRequest {
+    param: DisplayProductsParam
+    pages: PageRequest!
+}
+
+type DisplaySpace {
+    id: Int!
+    statusId: Int!
+    attributeId: Int!
+    blockNumber: String!
+    description: String
+    note: String
+    products: [DisplayProduct!]!
+    attribute: DisplaySpaceAttribute!
+}
+
+type DisplaySpaceAttribute {
+    id: Int!
+    tenantId: Int!
+    displaySpaceTypeId: Int!
+    name: String
+    width: Int!
+    height: Int!
+    depth: Int!
+    fees: [DisplaySpaceFee!]!
+}
+
+type DisplaySpaceAttributes {
+    dataSource: [DisplaySpaceAttribute!]!
+    pages: PageReply!
+}
+
+type DisplaySpaceFee {
+    id: Int!
+    attributeId: Int!
+    fee: Int!
+    span: Int!
+}
+
+type DisplaySpaceForProduct {
+    id: Int!
+    statusId: Int!
+    attributeId: Int!
+    blockNumber: String!
+    description: String
+    note: String
+}
+
+type DisplaySpaceImage {
+    id: Int!
+    path: String!
+    key: String!
+    fileType: String!
+}
+
+type DisplaySpaceImages {
+    images: [DisplaySpaceImage!]!
+}
+
+type DisplaySpaceProductImage {
+    id: Int!
+    displaySpaceProductId: Int!
+    path: String!
+    key: String!
+    fileName: String!
+    fileType: String!
+}
+
+input DisplaySpacesParam {
+    tenantId: Int
+    statusId: Int
+}
+
+type DisplaySpacesReply {
+    dataSource: [DisplaySpace!]!
+    pages: PageReply!
+}
+
+input DisplaySpacesRequest {
+    param: DisplaySpacesParam
+    pages: PageRequest
+}
+
+type DisplaySpaceStock {
+    stock: Int!
+    max: Int!
+}
+
+type DisplaySpaceStocks {
+    dataSource: [DisplaySpaceStocksDTO!]!
+}
+
+type DisplaySpaceStocksDTO {
+    date: Int!
+    stock: Int!
+    max: Int!
+}
+
+type ElepayPayment {
+    id: String!
+    chargeId: String!
+    codeId: String!
+    orderNo: String!
+    amount: Int!
+    recordStatusId: Int!
+    refunds: [ElepayRefund!]!
+}
+
+type ElepayRefund {
+    id: String!
+    refundId: String
+    amount: Int!
+}
+
+input ForgotPasswordRequest {
+    email: String!
+    code: String!
+    newPassword: String!
+}
+
+type Franchise {
+    id: Int!
+    franchiseCode: String!
+    prefId: Int!
+    companyName: String!
+    companyKana: String!
+    postalCode: String!
+    addr01: String!
+    addr02: String!
+    phoneNumber: String!
+    email01: String!
+    email02: String
+    email03: String
+    email04: String
+    url: String
+    createDate: DateTime!
+    updateDate: DateTime!
+}
+
+type FranchiseMemberDetail {
+    id: Int!
+    authorityId: Int!
+    franchiseId: Int!
+    name: String!
+    email: String!
+    phoneNumber: String
+    isFirst: Boolean!
+    companyName: String
+}
+
+input FranchiseMemberParam {
+    name: String!
+    email: String!
+    phoneNumber: String
+    password: String!
+}
+
+input GetBannersParam {
+    keyword: String
+    bannerTypeId: Int
+    startingDate: DateTime
+    closingDate: DateTime
+    ids: [Int]
+    sort: Sort
+}
+
+type GetBannersReply {
+    dataSource: [Banner!]!
+    pages: PageReply!
+}
+
+input GetBannersRequest {
+    param: GetBannersParam
+    pages: PageRequest!
+}
+
+input GetCafeCartRequest {
+    orderType: Int!
+    priceType: Int!
+}
+
+input GetCartRequest {
+    filter: CartFilter
+}
+
+input GetDisplaySpaceAttributesParam {
+    tenantId: Int!
+}
+
+input GetDisplaySpaceAttributesRequest {
+    param: GetDisplaySpaceAttributesParam
+    pages: PageRequest!
+}
+
+input GetDisplaySpaceStockRequest {
+    tenantId: Int!
+    attributeId: Int
+    date: Int!
+}
+
+input GetDisplaySpaceStocksRequest {
+    tenantId: Int!
+    attributeId: Int
+    startDate: Int!
+    endDate: Int!
+}
+
+input GetFranchiseMembersParam {
+    keyword: String
+}
+
+type GetFranchiseMembersReply {
+    dataSource: [FranchiseMemberDetail!]!
+    pages: PageReply!
+}
+
+input GetFranchiseMembersRequest {
+    param: GetFranchiseMembersParam
+    pages: PageRequest!
+}
+
+input GetFranchisesParam {
+    keyword: String
+}
+
+type GetFranchisesReply {
+    dataSource: [Franchise!]!
+    pages: PageReply!
+}
+
+input GetFranchisesRequest {
+    param: GetFranchisesParam
+    pages: PageRequest!
+}
+
+input GetManualsParam {
+    manualTypeId: Int
+    sort: Sort
+}
+
+type GetManualsReply {
+    dataSource: [Manual!]!
+    pages: PageReply!
+}
+
+input GetManualsRequest {
+    param: GetManualsParam
+    pages: PageRequest!
+}
+
+input GetMasterMembersParam {
+    keyword: String
+}
+
+type GetMasterMembersReply {
+    dataSource: [MasterMember!]!
+    pages: PageReply!
+}
+
+input GetMasterMembersRequest {
+    param: GetMasterMembersParam
+    pages: PageRequest!
+}
+
+input GetShopMembersParam {
+    keyword: String
+}
+
+type GetShopMembersReply {
+    dataSource: [ShopMemberDetail!]!
+    pages: PageReply!
+}
+
+input GetShopMembersRequest {
+    param: GetShopMembersParam
+    pages: PageRequest!
+}
+
+input GetShopsParam {
+    keyword: String
+}
+
+type GetShopsReply {
+    dataSource: [Shop!]!
+    pages: PageReply!
+}
+
+input GetShopsRequest {
+    param: GetShopsParam
+    pages: PageRequest!
+}
+
+input GetSTenantMembersParam {
+    keyword: String
+}
+
+type GetTenantMembersReply {
+    dataSource: [TenantMemberDetail!]!
+    pages: PageReply!
+}
+
+input GetTenantMembersRequest {
+    param: GetSTenantMembersParam
+    pages: PageRequest!
+}
+
+type Image {
+    path: String!
+    key: String!
+    fileType: String!
+}
+
+input ImageInput {
+    path: String!
+    key: String!
+    fileType: String!
+}
+
+interface IOrder {
+    id: Int!
+    orderId: String!
+    customerId: Int!
+    ownnerId: Int!
+    ownnerTypeId: Int!
+    deliveryFeeTotal: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    shippingStatusId: Int!
+    paymentStatusId: Int!
+    returnStatusId: Int!
+    recordStatusId: Int!
+    createDate: DateTime
+}
+
+type LoginAccount {
+    id: Int!
+    name: String
+    email: String!
+    phoneNumber: String
+    loginType: Int!
+    isFirst: Boolean!
+    authorityId: Int
+    cartId: Int
+    birthday: DateTime
+    sexId: Int
+    accountTypeId: Int
+    accountStatusId: Int
+    tenantId: Int
+    shopId: Int
+    franchiseId: Int
+}
+
+type Manual {
+    id: Int!
+    path: String!
+    key: String!
+    fileType: String!
+    fileName: String!
+    manualTypeId: Int!
+}
+
+input MasterLogin {
+    email: String!
+    password: String!
+}
+
+type MasterMember {
+    id: Int!
+    authorityId: Int!
+    name: String!
+    email: String!
+    phoneNumber: String
+    isFirst: Boolean!
+}
+
+type Mutation {
+    test: String
+    accountCreate(request: CreateAccountRequest!): LoginAccount!
+    accountUpdate(request: UpdateAccountRequest!): ActionReply!
+    accountDelete: ActionReply!
+    accountPasswordUpdate(request: UpdatePasswordRequest!): ActionReply!
+    accountOneTimePasswordCreate(request: CreateOneTimePasswordRequest!): ActionReply!
+    accountForgotPassword(request: ForgotPasswordRequest!): ActionReply!
+    accountConfirm(request: AccountConfirmRequest!): ActionReply!
+    addressCreate(request: CreateAddressRequest!): ActionReply!
+    addressUpdate(request: UpdateAddressRequest!): ActionReply!
+    addressDelete(id: Int!): ActionReply!
+    accountLogin(request: AccountLoginRequest!): LoginAccount!
+    accountTemporaryMailSend: Void
+    logout: Boolean!
+    actionMetricsCreate(request: Action!): ActionReply!
+    cafeProductCreate(request: CreateCafeProductRequest!): ActionReply!
+    cafeProductUpdate(request: UpdateCafeProductRequest!): ActionReply!
+    cafeProductDelete(id: String!): ActionReply!
+    cafeProductChangeSoldOut(request: ChangeSoldOutRrequest!): ActionReply!
+    cafeStandardProductCreate(request: CreateCafeStandardProductRequest!): ActionReply!
+    cafeStandardProductUpdate(request: UpdateCafeStandardProductRequest!): ActionReply!
+    cafeStandardProductDelete(id: String!): ActionReply!
+    cafeStandardProductGroupCreate(request: CreateCafeStandardProductGroupRequest!): ActionReply!
+    cafeStandardProductGroupUpdate(request: UpdateCafeStandardProductGroupRequest!): ActionReply!
+    cafeStandardProductsAdd(request: CafeStandardProductForm!): ActionReply!
+    cafeStandardProductsDelete(request: CafeStandardProductForm!): ActionReply!
+    cafeCartDelete: ActionReply!
+    cafeCartItemCreate(request: CreateCafeCartItemRequest!): ActionReply!
+    cafeCartItemUpdate(request: UpdateCafeCartItemRequest!): ActionReply!
+    cafeCartItemDelete(id: String!): ActionReply!
+    cafeOrderCreate(request: CreateCafeOrderRequest!): CafeOrder!
+    cafeOrderUpdate(request: UpdateCafeOrderRequest!): ActionReply!
+    cafeOrderItemUpdate(request: UpdateCafeOrderItemRequest!): ActionReply!
+    cafeOrderDelete(request: DeleteCafeOrderRequest!): ActionReply!
+    bannerCreate(request: CreateBannerRequest!): ActionReply!
+    bannerUpdate(request: UpdateBannerRequest!): ActionReply!
+    bannerDelete(id: Int!): ActionReply!
+    bannerFileUrlCreate(request: CreateUrlRequest!): CreateUrlReply!
+    cartCreate(id: Int!): Int!
+    cartItemCreate(request: CreateCartItemRequest!): ActionReply!
+    cartItemUpdate(request: UpdateCartItemRequest!): ActionReply!
+    cartItemDelete(id: Int!): ActionReply!
+    fileUrlCreate(request: CreateUrlRequest!): CreateUrlReply!
+    fileUrlsCreate(request: [CreateUrlRequest!]!): [CreateUrlReply!]!
+    franchiseCreate(request: CreateFranchiseRequest!): ActionReply!
+    franchiseUpdate(request: UpdateFranchiseRequest!): ActionReply!
+    franchiseDelete(id: Int!): ActionReply!
+    franchiseMemberCreate(request: CreateFranchiseMember!): ActionReply!
+    franchiseMemberUpdate(request: UpdateFranchiseMember!): ActionReply!
+    franchiseMemberDelete(id: Int!): ActionReply!
+    franchiseLogin(request: AdminLogin!): LoginAccount!
+    franchisePasswordUpdate(request: UpdatePasswordRequest!): ActionReply!
+    franchiseOneTimePasswordCreate(request: CreateAdminOneTimePasswordRequest!): ActionReply!
+    franchiseForgotPassword(request: ForgotPasswordRequest!): ActionReply!
+    masterMemberCreate(request: CreateMasterMember!): ActionReply!
+    masterMemberUpdate(request: UpdateMasterMember!): ActionReply!
+    masterMemberDelete(id: Int!): ActionReply!
+    masterLogin(request: MasterLogin): LoginAccount!
+    masterPasswordUpdate(request: UpdatePasswordRequest!): ActionReply!
+    masterOneTimePasswordCreate(request: CreateAdminOneTimePasswordRequest!): ActionReply!
+    masterForgotPassword(request: ForgotPasswordRequest!): ActionReply!
+    manualCreate(request: CreateManualRequest!): ActionReply!
+    manualDelete(id: Int!): ActionReply!
+    manualUrlCreate(request: CreateUrlRequest!): CreateUrlReply!
+    manualUrlsCreate(request: [CreateUrlRequest!]!): [CreateUrlReply!]!
+    orderCreate(request: CreateOrderRequest!): CreateOrderReply!
+    orderUpdate(request: UpdateOrderRequest!): ActionReply!
+    shippingInformationCreate(request: CreateShippingInformationRequest!): ActionReply!
+    productCreate(request: CreateProductRequest!): ActionReply!
+    productUpdate(request: UpdateProductRequest!): ActionReply!
+    productDelete(id: String!): ActionReply!
+    skuCreate(request: AddSkuRequest!): ActionReply!
+    skuUpdate(request: UpdateSkuRequest!): ActionReply!
+    skuDelete(request: DeleteSkuRequest!): ActionReply!
+    tenpoOnlyProductCreate(request: CreateTenpoOnlyProductRequest!): ActionReply!
+    tenpoOnlyProductUpdate(request: UpdateTenpoOnlyProductRequest!): ActionReply!
+    tenpoOnlyProductDelete(id: String!): ActionReply!
+    productFileUrlCreate(request: CreateUrlRequest!): CreateUrlReply!
+    productFileUrlsCreate(request: [CreateUrlRequest!]!): [CreateUrlReply!]!
+    shopBusinessDayUpdate(request: BusinessDayRequest!): ActionReply!
+    shopCreate(request: CreateShop!): ActionReply!
+    shopUpdate(request: UpdateShop!): ActionReply!
+    shopDelete(id: Int!): ActionReply!
+    shopLogin(request: AdminLogin!): LoginAccount!
+    shopMemberCreate(request: CreateShopMember!): ActionReply!
+    shopMemberUpdate(request: UpdateShopMember!): ActionReply!
+    shopMemberDelete(id: Int!): ActionReply!
+    shopPasswordUpdate(request: UpdatePasswordRequest!): ActionReply!
+    shopOneTimePasswordCreate(request: CreateAdminOneTimePasswordRequest!): ActionReply!
+    shopForgotPassword(request: ForgotPasswordRequest!): ActionReply!
+    squareDeviceCodeCreate(tenpoId: Int!): String!
+    tenantBusinessDayCreate(request: BusinessDayRequest!): ActionReply!
+    tenantBusinessDayUpdate(request: BusinessDayRequest!): ActionReply!
+    tenantCreate(request: CreateTenant!): ActionReply!
+    tenantUpdate(request: UpdateTenant!): ActionReply!
+    tenantDelete(id: Int!): ActionReply!
+    tenantLogin(request: AdminLogin!): LoginAccount!
+    tenantMemberCreate(request: CreateTenantMember!): ActionReply!
+    tenantMemberUpdate(request: UpdateTenantMember!): ActionReply!
+    tenantMemberDelete(id: Int!): ActionReply!
+    tenantPasswordUpdate(request: UpdatePasswordRequest!): ActionReply!
+    tenantOneTimePasswordCreate(request: CreateAdminOneTimePasswordRequest!): ActionReply!
+    tenantForgotPassword(request: ForgotPasswordRequest!): ActionReply!
+    tenantDeliveryAddressUpdate(request: UpdateDeliveryAddressRequest!): ActionReply!
+    displaySpaceCreate(request: CreateDisplaySpaceRequest!): ActionReply!
+    displaySpaceUpdate(request: UpdateDisplaySpaceRequest!): ActionReply!
+    displaySpaceDelete(id: Int!): ActionReply!
+    displaySpaceAttributeCreate(request: CreateDisplaySpaceAttributeRequest): ActionReply!
+    displaySpaceAttributeUpdate(request: UpdateDisplaySpaceAttributeRequest): ActionReply!
+    displaySpaceAttributeDelete(id: Int!): ActionReply!
+    displaySpaceImageCreate(request: [CreateDisplayImage!]!): ActionReply!
+    displaySpaceImageDelete(request: DeleteDisplayImage!): ActionReply!
+    displaySpaceImageFileUrlCreate(request: CreateUrlRequest!): CreateUrlReply!
+    displaySpaceImageFileUrlsCreate(request: [CreateUrlRequest!]!): [CreateUrlReply!]!
+    displayProductCreate(request: CreateDisplayProductRequest!): ActionReply!
+    displayProductUpdate(request: UpdateDisplayProductRequest!): ActionReply!
+    displayProductDelete(id: Int!): ActionReply!
+    displayProductFileUrlCreate(request: CreateUrlRequest!): CreateUrlReply!
+    displayProductFileUrlsCreate(request: [CreateUrlRequest!]!): [CreateUrlReply!]!
+    displaySpaceOnProductCreate(request: CreateDisplaySpaceOnProductRequest!): ActionReply!
+    displaySpaceOnProductDelete(id: Int!): ActionReply!
+}
+
+type Order implements IOrder {
+    id: Int!
+    orderId: String!
+    customerId: Int!
+    ownnerId: Int!
+    ownnerTypeId: Int!
+    deliveryFeeTotal: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    memo: String
+    shippingStatusId: Int!
+    paymentStatusId: Int!
+    returnStatusId: Int!
+    recordStatusId: Int!
+    shippingAddress: ShippingAddress
+    shippingInformations: [ShippingInformation!]!
+    orderItems: [OrderItem!]!
+    shippedItems: [ShippedItem!]!
+    returnedItems: [ReturnedItem!]!
+    refundedItems: [RefundedItem!]!
+    createDate: DateTime
+    updateDate: DateTime
+    account: Account
+    tenant: Tenant
+    shop: Shop
+}
+
+type OrderedCartItem {
+    id: Int!
+    typeId: Int!
+    productId: String!
+    skuId: String!
+    quantity: Int!
+}
+
+type OrderItem {
+    id: Int!
+    orderId: Int!
+    productId: String!
+    skuId: String!
+    productName: String!
+    thumbnail: String!
+    pattern: String!
+    sku: String!
+    taxRate: Float!
+    price: Int!
+    priceWithTax: Int!
+    quantity: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+type OrdersDTO implements IOrder {
+    id: Int!
+    orderId: String!
+    customerId: Int!
+    ownnerId: Int!
+    ownnerTypeId: Int!
+    deliveryFeeTotal: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    shippingStatusId: Int!
+    paymentStatusId: Int!
+    returnStatusId: Int!
+    recordStatusId: Int!
+    createDate: DateTime
+    updateDate: DateTime
+    orderItems: [OrderItem!]!
+    shippingAddress: ShippingAddress
+    account: Account
+    tenant: Tenant
+    shop: Shop
+}
+
+input OrdersParam {
+    keyword: String
+    shippingStatusId: Int
+    paymentStatusId: Int
+    startDate: DateTime
+    endDate: DateTime
+    customerId: Int
+    orderId: String
+    ownnerId: Int
+    ownnerTypeId: Int
+}
+
+type OrdersReply {
+    dataSource: [OrdersDTO!]!
+    pages: PageReply!
+}
+
+input OrdersRequest {
+    param: OrdersParam
+    pages: PageRequest
+}
+
+type PageReply {
+    totalCount: Int!
+    totalPage: Int!
+    currentPage: Int!
+    range: Range!
+}
+
+input PageRequest {
+    take: Int!
+    skip: Int!
+}
+
+type Pattern {
+    label: String!
+    option: String!
+}
+
+input PatternInput {
+    label: String!
+    option: String!
+}
+
+type Product {
+    id: String!
+    name: String!
+    overview: String!
+    detail: String
+    categoryId: Int!
+    joinMemberId: Int!
+    joinMemberName: String!
+    tags: [String!]!
+    memo: String
+    variations: [Variation!]!
+    images: [Image!]!
+    skus: [Sku!]!
+    isReducedTax: Boolean!
+    status: Int!
+    saleType: Int!
+    externalUrl: String
+    startDate: DateTime
+    endDate: DateTime
+    createDate: DateTime!
+    updateDate: DateTime!
+}
+
+type Query {
+    test: String
+    testAdminRegisterMail: Boolean!
+    testForgotPasswordMail: Boolean!
+    testMainMemberMail: Boolean!
+    testTemporaryMemberMail: Boolean!
+    testOrderReceivedMail: Boolean!
+    testShippingInfoMail: Boolean!
+    testDisplaySpaceApply: Boolean!
+    testDisplaySpaceApproved: Boolean!
+    testDisplaySpaceRejected: Boolean!
+    me: LoginAccount
+    address(id: Int!): Address!
+    addresses(customerId: Int!): [Address!]!
+    account(id: Int!): Account!
+    accounts(request: SearchAccountsRequest!): SearchAccountsReply!
+    cafeProduct(id: String!): CafeProduct!
+    cafeProducts(ids: [String!]!): [CafeProduct!]
+    cafeProductSearch(request: SearchCafeProductRequest): SearchCafeProductReply!
+    cafeStandardProduct(id: String!): CafeStandardProduct!
+    cafeStandardProducts(ids: [String!]!): [CafeStandardProduct!]
+    cafeStandardProductSearch(request: SearchCafeStandardProductRequest): SearchCafeStandardProductReply!
+    cafeStandardProductGroup(id: String!): CafeStandardProductGroup!
+    cafeStandardProductGroupSearch(request: SearchCafeStandardProductGroupRequest!): SearchCafeStandardProductGroupReply!
+    cafeCart(request: GetCafeCartRequest!): CafeCart!
+    cafeOrder(id: String!): CafeOrder!
+    cafeOrders(request: CafeOrdersRequest!): CafeOrdersReply!
+    cafeOrdersSummary(request: CafeOrdersSummaryRequest): CafeOrdersSummayrReply!
+    banner(id: Int!): Banner
+    banners(request: GetBannersRequest!): GetBannersReply!
+    cart(request: GetCartRequest!): [Cart!]!
+    elepayPayment(id: String!): ElepayPayment!
+    franchise(id: Int): Franchise!
+    franchises(request: GetFranchiseMembersRequest): GetFranchisesReply!
+    franchiseMember(id: Int): FranchiseMemberDetail!
+    franchiseMembers(request: GetFranchiseMembersRequest!): GetFranchiseMembersReply!
+    masterMember(id: Int!): MasterMember
+    masterMembers(request: GetMasterMembersRequest!): GetMasterMembersReply!
+    manual(id: Int!): Manual!
+    manuals(request: GetManualsRequest!): GetManualsReply!
+    order(id: Int!): Order!
+    orders(request: OrdersRequest!): OrdersReply!
+    product(id: String!): Product!
+    products(ids: [String!]!): [Product!]
+    productSearch(request: SearchProductRequest): SearchProductReply!
+    tenpoOnlyProduct(id: String!): TenpoOnlyProduct!
+    tenpoOnlyProducts(ids: [String!]!): [TenpoOnlyProduct!]
+    tenpoOnlyProductSearch(request: SearchTenpoOnlyProductRequest): SearchTenpoOnlyProductReply!
+    shop(id: Int!): Shop!
+    shops(request: GetShopsRequest!): GetShopsReply!
+    shopBusinessDay(shopId: Int!): BusinessDay!
+    shopMember(id: Int!): ShopMemberDetail!
+    shopMembers(request: GetShopMembersRequest!): GetShopMembersReply!
+    squareDevices: [SquareDevice!]!
+    tenant(id: Int!): Tenant
+    tenants(request: TenantsRequest!): TenantsReply!
+    tenantMember(id: Int!): TenantMemberDetail!
+    tenantMembers(request: GetTenantMembersRequest!): GetTenantMembersReply!
+    tenantBusinessDay(tenantId: Int!): BusinessDay!
+    tenantDeliveryAddress(tenantId: Int): DeliveryAddress!
+    displaySpace(id: Int!): DisplaySpace
+    displaySpaces(request: DisplaySpacesRequest!): DisplaySpacesReply!
+    displaySpaceAttribute(id: Int!): DisplaySpaceAttribute!
+    displaySpaceAttributes(request: GetDisplaySpaceAttributesRequest!): DisplaySpaceAttributes!
+    displaySpaceStock(request: GetDisplaySpaceStockRequest!): DisplaySpaceStock
+    displaySpaceStocks(request: GetDisplaySpaceStocksRequest!): DisplaySpaceStocks!
+    displaySpaceImage(tenantId: Int): DisplaySpaceImages!
+    displayProduct(id: Int!): DisplayProduct!
+    displayProducts(request: DisplayProductsRequest): DisplayProducts!
+}
+
+type Range {
+    first: Int!
+    end: Int!
+}
+
+type RefundedItem {
+    id: Int!
+    orderItemId: Int!
+    refundReasonId: Int!
+    price: Int!
+    completedDate: DateTime
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+type ReturnedItem {
+    id: Int!
+    orderItemId: Int!
+    quantity: Int!
+    completedDate: DateTime
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+input SearchAccountsParam {
+    keyword: String
+    accountStatusId: Int
+    sort: Sort
+}
+
+type SearchAccountsReply {
+    dataSource: [Account!]!
+    pages: PageReply!
+}
+
+input SearchAccountsRequest {
+    param: SearchAccountsParam
+    pages: PageRequest!
+}
+
+input SearchCafeProductParam {
+    keyword: String
+    ids: [String!]!
+    tenpoIds: [Int!]!
+    categoryId: Int
+    status: Int
+    sort: Int
+}
+
+type SearchCafeProductReply {
+    dataSource: [CafeProduct!]!
+    pages: PageReply!
+}
+
+input SearchCafeProductRequest {
+    param: SearchCafeProductParam
+    pages: PageRequest
+}
+
+input SearchCafeStandardProductGroupParam {
+    keyword: String
+    ids: [String!]!
+    startDate: DateTime
+    endDate: DateTime
+}
+
+type SearchCafeStandardProductGroupReply {
+    dataSource: [CafeStandardProductGroup!]!
+    pages: PageReply!
+}
+
+input SearchCafeStandardProductGroupRequest {
+    param: SearchCafeStandardProductGroupParam
+    pages: PageRequest
+}
+
+input SearchCafeStandardProductParam {
+    keyword: String
+    ids: [String!]
+    categoryId: Int
+}
+
+type SearchCafeStandardProductReply {
+    dataSource: [CafeStandardProduct!]!
+    pages: PageReply!
+}
+
+input SearchCafeStandardProductRequest {
+    param: SearchCafeStandardProductParam
+    pages: PageRequest
+}
+
+input SearchProductParam {
+    keyword: String
+    ids: [String!]!
+    joinMemberIds: [Int!]!
+    categoryId: Int
+    status: Int
+    startDate: DateTime
+    endDate: DateTime
+    displayProduct: DisplayProductParam
+    sort: Int
+}
+
+type SearchProductReply {
+    dataSource: [Product!]!
+    pages: PageReply!
+}
+
+input SearchProductRequest {
+    param: SearchProductParam
+    pages: PageRequest
+}
+
+type SearchTenpoOnlyProductReply {
+    dataSource: [TenpoOnlyProduct!]!
+    pages: PageReply!
+}
+
+input SearchTenpoOnlyProductRequest {
+    param: SearchProductParam
+    pages: PageRequest
+}
+
+type ShippedItem {
+    id: Int!
+    orderItemId: Int!
+    shippingInformationId: Int!
+    quantity: Int!
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+type ShippingAddress {
+    id: Int!
+    prefId: Int!
+    name: String!
+    kana: String
+    email: String
+    phoneNumber: String
+    postalCode: String!
+    addr01: String!
+    addr02: String
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+type ShippingInformation {
+    id: Int!
+    orderId: Int!
+    deliveryVendorId: Int!
+    arrivalDate: DateTime
+    shippingDate: DateTime
+    completedDate: DateTime
+    trackingNumber: String!
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+type Shop {
+    id: Int!
+    shopCode: String!
+    prefId: Int!
+    companyName: String!
+    companyKana: String!
+    postalCode: String!
+    addr01: String!
+    addr02: String!
+    phoneNumber: String!
+    email01: String!
+    email02: String
+    email03: String
+    email04: String
+    shopName: String!
+    shopKana: String!
+    shopNameEng: String
+    url: String
+}
+
+type ShopMemberDetail {
+    id: Int!
+    authorityId: Int!
+    shopId: Int!
+    name: String!
+    email: String!
+    phoneNumber: String
+    isFirst: Boolean!
+    companyName: String
+}
+
+input ShopMemberParam {
+    name: String!
+    email: String!
+    phoneNumber: String
+    password: String!
+}
+
+type ShopSubscription {
+    id: String!
+    customerId: Int!
+    totalPrice: Int!
+    totalTax: Int!
+    totalPayment: Int!
+    memo: String
+    startDate: DateTime!
+    endDate: DateTime!
+    paymentStatusId: Int!
+    planId: Int!
+    price: Int!
+    duration: Int!
+    paymentId: String
+    codeUrl: String
+}
+
+type ShopSubscriptionPlan {
+    id: Int!
+    price: Int!
+    duration: Int!
+}
+
+type Sku {
+    id: String!
+    qty: Int!
+    price: Float!
+    cost: Float
+    sku: String
+    barcode: String
+    pattern: [Pattern!]!
+    priceWithTax: Int!
+}
+
+input Sort {
+    key: String!
+    order: Int!
+}
+
+type SquareDevice {
+    id: String!
+    deviceId: String!
+    code: String!
+    name: String
+}
+
+type SubscriptionStatus {
+    status: Int!
+    price: Int
+    duration: Int
+    startDate: DateTime
+    endDate: DateTime
+}
+
+type Tenant {
+    id: Int!
+    tenantCode: String!
+    prefId: Int!
+    companyName: String!
+    companyKana: String!
+    postalCode: String!
+    addr01: String!
+    addr02: String!
+    phoneNumber: String!
+    email01: String!
+    email02: String
+    email03: String
+    email04: String
+    tenantName: String!
+    tenantKana: String!
+    tenantNameEng: String
+    openingTime: String
+    closingTime: String
+    url: String
+}
+
+type TenantMember {
+    id: Int!
+    authorityId: Int!
+    tenantId: Int!
+    name: String!
+    email: String!
+    phoneNumber: String
+    isFirst: Boolean!
+}
+
+type TenantMemberDetail {
+    id: Int!
+    authorityId: Int!
+    tenantId: Int!
+    name: String!
+    email: String!
+    phoneNumber: String
+    isFirst: Boolean!
+    companyName: String
+}
+
+input TenantMemberParam {
+    name: String!
+    email: String!
+    phoneNumber: String
+    password: String!
+}
+
+input TenantsParam {
+    keyword: String
+}
+
+type TenantsReply {
+    dataSource: [Tenant!]!
+    pages: PageReply!
+}
+
+input TenantsRequest {
+    param: TenantsParam
+    pages: PageRequest
+}
+
+type TenpoOnlyProduct {
+    id: String!
+    name: String!
+    joinMemberId: Int!
+    joinMemberName: String!
+    memo: String
+    saleType: Int!
+    externalUrl: String!
+    createDate: DateTime
+    updateDate: DateTime
+}
+
+input UpdateAccountRequest {
+    id: Int!
+    name: String
+    kana: String
+    sexId: Int
+    phoneNumber: String
+    email: String
+    birthday: DateTime
+}
+
+input UpdateAddressRequest {
+    id: Int!
+    name: String
+    prefId: Int
+    postalCode: String
+    phoneNumber: String
+    addr01: String
+    addr02: String
+}
+
+input UpdateBannerRequest {
+    id: Int!
+    title: String
+    url: String
+    startingDate: DateTime
+    closingDate: DateTime
+    sortNo: Int
+    isExternal: Boolean
+}
+
+input UpdateCafeCartItemRequest {
+    id: String!
+    quantity: Int!
+}
+
+input UpdateCafeOrderItemRequest {
+    id: String!
+    orderItemId: String!
+    recordStatusId: Int
+}
+
+input UpdateCafeOrderRequest {
+    id: String!
+    orderStatusId: Int
+}
+
+input UpdateCafeProductRequest {
+    id: String!
+    name: String
+    overview: String
+    detail: String
+    categoryId: Int
+    tags: [String!]
+    memo: String
+    variations: [CafeVariationInput!]
+    images: [ImageInput!]
+    status: Int
+}
+
+input UpdateCafeStandardProductGroupRequest {
+    id: String!
+    name: String
+    tenpoSizeId: Int
+    startDate: DateTime
+    endDate: DateTime
+}
+
+input UpdateCafeStandardProductRequest {
+    id: String!
+    name: String
+    overview: String
+    detail: String
+    categoryId: Int
+    tags: [String!]
+    isReducedTax: Boolean
+    memo: String
+    variations: [CafeVariationInput!]
+    images: [ImageInput!]
+    status: Int
+    nonManagedStock: Boolean
+}
+
+input UpdateCartItemRequest {
+    id: Int!
+    quantity: Int!
+}
+
+input UpdateDeliveryAddressRequest {
+    name: String
+    prefId: Int
+    postalCode: String
+    addr01: String
+    addr02: String
+    phoneNumber: String
+}
+
+input UpdateDisplayProductRequest {
+    id: Int!
+    shippedStatusId: Int
+    applyStatusId: Int
+    note: String
+    statusNote: String
+    isDelivery: Boolean
+}
+
+input UpdateDisplaySpaceAttributeRequest {
+    id: Int!
+    displaySpaceTypeId: Int
+    name: String
+    fee: Int
+    width: Int
+    height: Int
+    depth: Int
+    span: Int
+}
+
+input UpdateDisplaySpaceRequest {
+    id: Int!
+    statusId: Int
+    blockNumber: String
+    description: String
+    note: String
+}
+
+input UpdateFranchiseMember {
+    id: Int!
+    authorityId: Int
+    name: String
+    email: String
+    phoneNumber: String
+}
+
+input UpdateFranchiseRequest {
+    id: Int!
+    prefId: Int
+    companyName: String
+    companyKana: String
+    postalCode: String
+    addr01: String
+    addr02: String
+    phoneNumber: String
+    email01: String
+    email02: String
+    email03: String
+    email04: String
+    url: String
+}
+
+input UpdateMasterMember {
+    id: Int!
+    authorityId: Int
+    name: String
+    email: String
+    phoneNumber: String
+}
+
+input UpdateOrderRequest {
+    id: Int!
+    memo: String
+}
+
+input UpdatePasswordRequest {
+    currentPassword: String!
+    newPassword: String!
+}
+
+input UpdateProductRequest {
+    id: String!
+    name: String
+    overview: String
+    detail: String
+    categoryId: Int
+    tags: [String!]
+    memo: String
+    variations: [VariationInput!]
+    images: [ImageInput!]
+    isReducedTax: Boolean
+    status: Int
+    externalUrl: String
+    startDate: DateTime
+    endDate: DateTime
+}
+
+input UpdateShop {
+    id: Int!
+    prefId: Int
+    companyName: String
+    companyKana: String
+    postalCode: String
+    addr01: String
+    addr02: String
+    phoneNumber: String
+    email01: String
+    email02: String
+    email03: String
+    email04: String
+    shopName: String
+    shopKana: String
+    shopNameEng: String
+    url: String
+}
+
+input UpdateShopMember {
+    id: Int!
+    authorityId: Int
+    name: String
+    email: String
+    phoneNumber: String
+}
+
+input UpdateSkuRequest {
+    id: String!
+    skuId: String!
+    price: Float
+    sku: String
+    barcode: String
+    qty: Int
+    cost: Int
+}
+
+input UpdateTenant {
+    id: Int!
+    prefId: Int
+    companyName: String
+    companyKana: String
+    postalCode: String
+    addr01: String
+    addr02: String
+    phoneNumber: String
+    email01: String
+    email02: String
+    email03: String
+    email04: String
+    tenantName: String
+    tenantKana: String
+    tenantNameEng: String
+    openingTime: String
+    closingTime: String
+    url: String
+}
+
+input UpdateTenantMember {
+    id: Int!
+    authorityId: Int
+    name: String
+    email: String
+    phoneNumber: String
+}
+
+input UpdateTenpoOnlyProductRequest {
+    id: String!
+    name: String
+    memo: String
+    externalUrl: String
+}
+
+type Variation {
+    label: String!
+    options: [String!]!
+}
+
+input VariationInput {
+    label: String!
+    options: [String!]!
+}
+
+scalar Void
+
